@@ -7,6 +7,7 @@
 import sys
 import getopt
 import dns.resolver
+from tabulate import tabulate
 
 
 def usage():
@@ -73,7 +74,6 @@ def main():
 	records.append(list(resolve_spf(url)))	# append/clone entries list to the records list
 
 	for idx, val in enumerate(records):		# enumerate include entries in record list
-		print (idx, val)
 		for i in range(len(val)):
 			if "include" in val[i]:			# if include, add new spf entry to records
 				tmp_record = (str(val[i]).split(":"))
@@ -83,6 +83,7 @@ def main():
 	
 	print "###"
 	print "Number of records: ", len(records)
+	print (tabulate(records))
 
 
 if __name__ == "__main__":
