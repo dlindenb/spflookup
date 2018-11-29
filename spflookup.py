@@ -8,8 +8,6 @@ import sys
 import getopt
 import dns.resolver
 
-#name = 'spf.mwm2.nl'
-
 
 def usage():
 	"""
