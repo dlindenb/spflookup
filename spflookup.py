@@ -83,7 +83,7 @@ def main():
 	
 	print "###"
 	print "Number of records: ", len(records)
-	print (tabulate(records, tablefmt="psql"))
+	print (tabulate(records, tablefmt="pipe"))
 
 
 if __name__ == "__main__":
