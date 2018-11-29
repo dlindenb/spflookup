@@ -58,6 +58,9 @@ def main():
 		print str(err)
 		usage()
 		sys.exit(2)
+	if not len(opts) >= 1:
+		usage()
+		sys.exit(2)
 	for opt, arg in opts:
 		if opt in ("-h", "--help"):
 			usage()
