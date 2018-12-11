@@ -71,9 +71,9 @@ def main():
 		else:
 			assert False, "unhandled option"
 
-	records.append(list(resolve_spf(url)))		# append/clone entries list to the records list
+	records.append(list(resolve_spf(url)))		# append first entry to the records list
 
-	for idx, val in enumerate(records):			# enumerate include entries in record list
+	for idx, val in enumerate(records):			# enumerate included entries in record list
 		for i in range(len(val)):
 			if "include" in val[i]:				# if include, add new spf entry to records
 				tmp_record = (str(val[i]).split(":"))
