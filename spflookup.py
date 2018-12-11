@@ -31,17 +31,18 @@ def resolve_spf(url):
 	"""
 	This function resolves the SPF record of the given URL
 	"""
-	qtype = 'TXT'						# only resolve TXT records
+	qtype = 'TXT'								# only resolve TXT records 
 	entries = []
-	entries.append(url)					# append given url to entries list
+	entries.append(url)							# append given url to entries list
 	
 	answer = dns.resolver.query(url, qtype, raise_on_no_answer=False)	# query dns
 
-	for rdata in answer:				# proces response of first record
+	for rdata in answer:						# proces response of first record
 		for strings in rdata.strings:
-			entry = strings.split()		# split string on white spaces
-			entries.extend(entry)		# append strings as list entries to entries list
-	return entries						# return list
+			if strings.startswith("v=spf1"):	# filter the SPF record
+				entry = strings.split()			# split string on white spaces
+				entries.extend(entry)			# append strings as list entries to entries list
+	return entries								# return list
 	
 # MAIN #
 def main():
@@ -52,10 +53,9 @@ def main():
 	url = ''
 	records = []
 
-	try:
+	try:										# are cli arguments included?
 		opts, args = getopt.getopt(sys.argv[1:], "hu:", ["help", "url="])
-	except getopt.GetoptError as err:
-		# print error, followed by help info, then exit
+	except getopt.GetoptError as err:			# print error, followed by help info, then exit
 		print str(err)
 		usage()
 		sys.exit(2)
@@ -71,11 +71,11 @@ def main():
 		else:
 			assert False, "unhandled option"
 
-	records.append(list(resolve_spf(url)))	# append/clone entries list to the records list
+	records.append(list(resolve_spf(url)))		# append/clone entries list to the records list
 
-	for idx, val in enumerate(records):		# enumerate include entries in record list
+	for idx, val in enumerate(records):			# enumerate include entries in record list
 		for i in range(len(val)):
-			if "include" in val[i]:			# if include, add new spf entry to records
+			if "include" in val[i]:				# if include, add new spf entry to records
 				tmp_record = (str(val[i]).split(":"))
 				tmp_record.pop(0)
 				records.append(list(resolve_spf(str(tmp_record[0]))))
