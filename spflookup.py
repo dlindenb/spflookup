@@ -84,6 +84,7 @@ def main():
 	print "###"
 	print "Number of records: ", len(records)
 	print (tabulate(records, tablefmt="pipe"))
+	print "\n"
 
 
 if __name__ == "__main__":
